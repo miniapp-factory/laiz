@@ -6,7 +6,7 @@ import { url } from "@/lib/metadata";
 import { Button } from "@/components/ui/button";
 
 const fruits = ["apple", "banana", "cherry", "lemon"] as const;
-type Fruit = typeof fruits[number];
+type Fruit = typeof fruits[number] | 'crown';
 
 const createRandomGrid = (): Fruit[][] => {
   const grid: Fruit[][] = [];
@@ -22,10 +22,13 @@ const createRandomGrid = (): Fruit[][] => {
 
 export default function SlotMachine() {
   const [grid, setGrid] = useState<Fruit[][]>(createRandomGrid());
+  const [spinCount, setSpinCount] = useState(0);
   const [spinning, setSpinning] = useState(false);
 
   const spin = () => {
     if (spinning) return;
+    const newCount = spinCount + 1;
+    setSpinCount(newCount);
     setSpinning(true);
     const interval = setInterval(() => {
       setGrid((prev) => {
@@ -35,7 +38,7 @@ export default function SlotMachine() {
         newGrid[1] = newGrid[0];
         // new top row
         newGrid[0] = Array.from({ length: 3 }, () =>
-          fruits[Math.floor(Math.random() * fruits.length)]
+          newCount % 3 === 0 ? 'crown' : fruits[Math.floor(Math.random() * fruits.length)]
         );
         return newGrid;
       });

@@ -38,7 +38,7 @@ export default function SlotMachine() {
         newGrid[1] = newGrid[0];
         // new top row
         newGrid[0] = Array.from({ length: 3 }, () =>
-          newCount % 3 === 0 ? 'crown' : fruits[Math.floor(Math.random() * fruits.length)]
+          Math.random() < 1 / 3 ? 'crown' : fruits[Math.floor(Math.random() * fruits.length)]
         );
         return newGrid;
       });

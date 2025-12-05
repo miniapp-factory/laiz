@@ -60,6 +60,17 @@ export default function SlotMachine() {
         grid[0][col] === grid[1][col] && grid[1][col] === grid[2][col]
       ));
 
+  const crownWin =
+    !spinning &&
+    (grid.some(
+      (row) => row.every((f) => f === 'crown')
+    ) ||
+      [0, 1, 2].some((col) =>
+        grid[0][col] === 'crown' &&
+        grid[1][col] === 'crown' &&
+        grid[2][col] === 'crown'
+      ));
+
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="grid grid-cols-3 gap-2">
@@ -75,10 +86,10 @@ export default function SlotMachine() {
       <Button onClick={spin} disabled={spinning} variant="outline">
         {spinning ? "Spinning…" : "Spin"}
       </Button>
-      {win && (
+      {(crownWin || win) && (
         <div className="flex flex-col items-center gap-2">
           <span className="text-xl font-semibold text-green-600">
-            You win!
+            {crownWin ? 'Lucky Win Crown' : 'You win!'}
           </span>
           <Share text={`I just hit a win on the Fruit Slot Machine! ${url}`} />
         </div>
